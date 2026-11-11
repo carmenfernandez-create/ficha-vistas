@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Ficha interactiva de vistas 12×12</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:12px;font-family:Arial,sans-serif;background:#f3f5f8;color:#202a36}header,.sheet,.help{max-width:1450px;margin:0 auto}h1{font-size:clamp(22px,3vw,30px);margin:6px 0}.lead,.help{color:#536174;line-height:1.45}.toolbar{display:flex;flex-wrap:wrap;gap:8px;padding:10px;background:white;border:1px solid #d6dde7;border-radius:10px;position:sticky;top:0;z-index:5}button,.filelabel{border:1px solid #b8c4d3;background:white;border-radius:8px;padding:9px 12px;font-size:14px;cursor:pointer}button.active{background:#e3efff;border-color:#4385d8}#status{font-size:13px;color:#536174;margin:auto 0 auto auto}.sheet{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px auto}.exercise{background:white;border:1px solid #d6dde7;border-radius:10px;padding:10px;min-width:0;break-inside:avoid}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.head b{font-size:17px}.head button{font-size:12px;padding:6px 8px}.layout{display:grid;grid-template-columns:minmax(120px,.7fr) minmax(0,1.7fr);gap:10px}.object{min-height:140px;border:1px dashed #aab6c5;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;text-align:center;background:#fbfcfe}.object img{max-width:100%;max-height:180px;object-fit:contain}.image-stage{position:relative;display:inline-block;max-width:100%;line-height:0;touch-action:none;vertical-align:top}.image-stage img{display:block;max-width:100%;max-height:220px;object-fit:contain}.face-controls{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:5px 0}.face-controls button{font-size:11px;padding:5px 7px}.image-paint{position:absolute!important;left:0!important;top:0!important;width:100%!important;height:100%!important;aspect-ratio:auto!important;border:0!important;border-radius:0!important;background:transparent!important;background-image:none!important;touch-action:manipulation;pointer-events:auto;z-index:5;cursor:crosshair}.object small{color:#667385;line-height:1.4}.object input{max-width:100%;font-size:12px;margin-top:8px}.object .paste-image{font-size:12px;padding:6px 9px;margin:7px 0}.views{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"front side" "top .";gap:12px;min-width:0}.view{min-width:0}.front{grid-area:front}.top{grid-area:top}.side{grid-area:side}.view b{display:block;text-align:center;font-size:13px;margin-bottom:4px;padding:4px;border-radius:5px}.front b{background:#fff4bd;color:#755900}.top b{background:#dff5e8;color:#11663a}.side b{background:#e1efff;color:#15569c}canvas{display:block;width:100%;height:auto;aspect-ratio:1;background-color:#fff;background-image:linear-gradient(to right,#c5cfdb 1px,transparent 1px),linear-gradient(to bottom,#c5cfdb 1px,transparent 1px);background-size:calc(100% / 12) calc(100% / 12);border:1px solid #8492a3;border-radius:4px;touch-action:none;user-select:none;-webkit-user-select:none}.help{font-size:13px;margin:12px auto 24px}@media(max-width:850px){.sheet{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.object{min-height:100px}.object img{max-height:130px}}@media(max-width:520px){body{padding:7px}.toolbar{position:static}.toolbar button{font-size:12px;padding:8px}.exercise{padding:8px}.views{gap:8px}#status{width:100%}}@media print{@page{size:A4 landscape;margin:8mm}html,body{padding:0!important;margin:0!important;background:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.toolbar,.help,.head button,.object input{display:none!important}.sheet{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important;margin:0!important;max-width:none!important}.exercise{padding:6px;break-inside:avoid;page-break-inside:avoid}.layout{grid-template-columns:90px minmax(0,1fr);gap:6px}.object{min-height:80px}.object img{max-height:80px}canvas{background-color:#fff!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style></head><body>
+<header><h1>Ficha interactiva · Dibujo de vistas</h1><p class="lead">12 ejercicios en blanco. Coloca una imagen de la pieza en cada espacio y dibuja sus vistas sobre cuadrículas de <b>12 × 12</b>. La planta queda debajo del alzado y el perfil a su derecha.</p>
+<div class="toolbar"><button id="solid" class="active">Línea continua</button><button id="hidden">Línea oculta</button><button id="erase">Borrar trazos</button><button id="paintImage">Colorear pieza</button><button id="undo">Deshacer</button><button id="clear">Borrar toda la ficha</button><button id="save">Guardar trabajo</button><button id="printBtn" type="button">Imprimir / Guardar PDF</button><label style="font-size:13px">Color de cara <select id="paintColor"><option value="#f5d547">Alzado · amarillo</option><option value="#35a66f">Planta · verde</option><option value="#3986dc">Perfil derecho · azul</option></select></label><span id="status">Herramienta: línea continua</span></div><p class="lead"><b>Colores:</b> Alzado amarillo · Planta verde · Perfil azul. Las líneas ocultas mantienen el color de cada vista y se dibujan discontinuas.</p></header>
+<main class="sheet" id="sheet"></main>
+<p class="help"><b>Uso:</b> pulsa «Elegir imagen» o «Pegar imagen» para añadir la pieza. También puedes copiar una imagen y pulsar «Pegar imagen» en el ejercicio correspondiente; después usa Pegar (Ctrl+V, Cmd+V o el menú contextual del iPad). Usa «Colorear pieza», elige amarillo, verde o azul y marca con toques las esquinas que rodean una cara. Pulsa «Cerrar y rellenar cara» para colorear solo esa zona. «Deshacer punto/cara» corrige el último punto o elimina la última cara. Dibuja las vistas con línea continua o discontinua. Usa línea continua para aristas visibles y línea discontinua para aristas ocultas. «Guardar trabajo» conserva dibujos e imágenes en este navegador y dispositivo. Para compartir una copia, imprime o guarda como PDF.</p>
+<script>
+(()=>{
+const sheet=document.getElementById('sheet'), canvases=[], drawings=new Map();let tool='solid',active=null,start=null,preview=null;
+const key=c=>c.dataset.n+'-'+c.dataset.v, $=id=>document.getElementById(id);
+let imagePaintMode=false;
+const imageHistories=new Map();
+const activeFaces=new Map();
+function paintImageStroke(ctx,st,w,h){}
+function renderFace(ctx,face,w,h){
+ ctx.save();ctx.beginPath();
+ face.points.forEach((p,i)=>{const x=p.x*w,y=p.y*h;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});
+ ctx.closePath();ctx.fillStyle=face.color;ctx.globalAlpha=.45;ctx.fill();ctx.restore();
+}
+function installImagePainter(box){
+ const img=box.querySelector('.image-stage img');
+ const canvas=box.querySelector('.image-stage canvas');
+ if(!img||!canvas)return;
+ const resize=()=>{
+  const rect=img.getBoundingClientRect();
+  if(!rect.width||!rect.height)return;
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=Math.round(rect.width*dpr);
+  canvas.height=Math.round(rect.height*dpr);
+  canvas.style.width=rect.width+'px';
+  canvas.style.height=rect.height+'px';
+  const ctx=canvas.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  redraw();
+ };
+ const redraw=()=>{
+  const rect=img.getBoundingClientRect(),ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,rect.width,rect.height);
+  (imageHistories.get(box.id)||[]).forEach(f=>renderFace(ctx,f,rect.width,rect.height));
+  const pts=activeFaces.get(box.id)||[];
+  if(pts.length){
+   ctx.save();ctx.strokeStyle='#222';ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.beginPath();
+   pts.forEach((p,i)=>{const x=p.x*rect.width,y=p.y*rect.height;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});
+   ctx.stroke();pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x*rect.width,p.y*rect.height,3,0,Math.PI*2);ctx.fillStyle='#222';ctx.fill()});ctx.restore();
+  }
+ };
+ canvas.addEventListener('click',e=>{
+  if(!imagePaintMode)return;
+  e.preventDefault();e.stopPropagation();
+  const r=canvas.getBoundingClientRect(),pts=activeFaces.get(box.id)||[];
+  pts.push({x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))});
+  activeFaces.set(box.id,pts);redraw();
+  $('status').textContent='Puntos marcados: '+pts.length;
+ });
+ box.querySelector('.finish-face').addEventListener('click',e=>{
+  e.preventDefault();e.stopPropagation();
+  const pts=activeFaces.get(box.id)||[];
+  if(pts.length<3){$('status').textContent='Marca al menos 3 puntos dentro de la imagen.';return;}
+  const faces=imageHistories.get(box.id)||[];
+  faces.push({points:pts.slice(),color:$('paintColor').value});
+  imageHistories.set(box.id,faces);activeFaces.set(box.id,[]);redraw();
+  $('status').textContent='Cara rellenada. Marca otra cara si lo necesitas.';
+ });
+ box.querySelector('.undo-face').addEventListener('click',e=>{
+  e.preventDefault();e.stopPropagation();
+  const pts=activeFaces.get(box.id)||[];
+  if(pts.length){pts.pop();activeFaces.set(box.id,pts);redraw();$('status').textContent='Último punto deshecho.';return;}
+  const faces=imageHistories.get(box.id)||[];
+  if(faces.length){faces.pop();imageHistories.set(box.id,faces);redraw();$('status').textContent='Última cara eliminada.';}
+  else $('status').textContent='No hay nada que deshacer en esta imagen.';
+ });
+ if(img.complete)resize();else img.addEventListener('load',resize,{once:true});
+ if(window.ResizeObserver){const ro=new ResizeObserver(resize);ro.observe(img);}
+}
+function makeImageStage(src,n){
+ return `<div class="image-stage"><img alt="Pieza de referencia" src="${src}"><canvas class="image-paint" aria-label="Marcar el contorno de una cara"></canvas></div><div class="face-controls"><button type="button" class="finish-face">Cerrar y rellenar cara</button><button type="button" class="undo-face">Deshacer punto/cara</button></div><button type="button" class="paste-image" data-paste="${n}">Cambiar / pegar imagen</button><label class="filelabel">Cambiar imagen <input type="file" accept="image/*" data-img="${n}"></label>`;
+}
+
+for(let n=1;n<=12;n++){const a=document.createElement('section');a.className='exercise';a.innerHTML=`<div class="head"><b>Ejercicio ${n}</b><button class="clear-one" data-n="${n}">Borrar ejercicio</button></div><div class="layout"><div class="object" id="obj${n}" tabindex="0" contenteditable="true" aria-label="Espacio para pegar la imagen de la pieza del ejercicio ${n}"><small>Coloca aquí la imagen de la pieza</small><button type="button" class="paste-image" data-paste="${n}">Pegar imagen</button><label class="filelabel">Elegir imagen <input type="file" accept="image/*" data-img="${n}"></label></div><div class="views"><div class="view front"><b>Alzado</b><canvas width="360" height="360" data-n="${n}" data-v="Alzado"></canvas></div><div class="view top"><b>Planta</b><canvas width="360" height="360" data-n="${n}" data-v="Planta"></canvas></div><div class="view side"><b>Perfil</b><canvas width="360" height="360" data-n="${n}" data-v="Perfil"></canvas></div></div></div>`;sheet.appendChild(a)}
+function grid(c){const x=c.getContext('2d');x.clearRect(0,0,360,360);x.fillStyle='white';x.fillRect(0,0,360,360);x.strokeStyle='#c5cfdb';x.lineWidth=1;for(let i=0;i<=12;i++){let p=i*30+.5;x.beginPath();x.moveTo(p,0);x.lineTo(p,360);x.stroke();x.beginPath();x.moveTo(0,p);x.lineTo(360,p);x.stroke()}x.strokeStyle='#8492a3';x.lineWidth=1.5;x.strokeRect(.75,.75,358.5,358.5)}
+function viewColor(v){return v==='Alzado'?'#d6a900':v==='Planta'?'#16834a':'#1769c2'}
+function stroke(x,s,ghost=false){x.save();x.strokeStyle=viewColor(s.view || x.canvas.dataset.v);x.lineWidth=ghost?2.5:3;x.lineCap='round';if(s.hidden||ghost)x.setLineDash(s.hidden?[9,7]:[6,5]);x.beginPath();x.moveTo(s.x1,s.y1);x.lineTo(s.x2,s.y2);x.stroke();x.restore()}
+function redraw(c){grid(c);let x=c.getContext('2d');(drawings.get(key(c))||[]).forEach(s=>stroke(x,s));if(preview&&active===c)stroke(x,preview,true)}
+function point(e,c){let r=c.getBoundingClientRect();let x=Math.round(((e.clientX-r.left)*360/r.width)/30)*30;let y=Math.round(((e.clientY-r.top)*360/r.height)/30)*30;return {x:Math.max(0,Math.min(360,x)),y:Math.max(0,Math.min(360,y))}}
+function dist(p,s){let dx=s.x2-s.x1,dy=s.y2-s.y1,l=dx*dx+dy*dy;if(!l)return Math.hypot(p.x-s.x1,p.y-s.y1);let t=Math.max(0,Math.min(1,((p.x-s.x1)*dx+(p.y-s.y1)*dy)/l));return Math.hypot(p.x-s.x1-t*dx,p.y-s.y1-t*dy)}
+document.querySelectorAll('canvas').forEach(c=>{canvases.push(c);drawings.set(key(c),[]);redraw(c);c.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0)return;e.preventDefault();active=c;start=point(e,c);preview={x1:start.x,y1:start.y,x2:start.x,y2:start.y,hidden:tool==='hidden',view:c.dataset.v};try{c.setPointerCapture(e.pointerId)}catch(_){}redraw(c)});c.addEventListener('pointermove',e=>{if(active!==c||!start)return;e.preventDefault();let p=point(e,c);if(tool==='erase'){let a=drawings.get(key(c)),b=a.filter(s=>dist(p,s)>12);if(a.length!==b.length){drawings.set(key(c),b);redraw(c)}}else{preview={x1:start.x,y1:start.y,x2:p.x,y2:p.y,hidden:tool==='hidden',view:c.dataset.v};redraw(c)}});let finish=e=>{if(active!==c)return;if(start&&tool!=='erase'){let p=point(e,c);if(start.x!==p.x||start.y!==p.y){let a=drawings.get(key(c));a.push({x1:start.x,y1:start.y,x2:p.x,y2:p.y,hidden:tool==='hidden',view:c.dataset.v})}}active=null;start=null;preview=null;redraw(c)};c.addEventListener('pointerup',finish);c.addEventListener('pointercancel',finish)});
+function setTool(t){tool=t;[['solid','solid'],['hidden','hidden'],['erase','erase']].forEach(([id,v])=>$(id).classList.toggle('active',t===v));$('status').textContent='Herramienta: '+({solid:'línea continua',hidden:'línea oculta discontinua',erase:'borrar trazos'}[t])}
+$('solid').onclick=()=>{imagePaintMode=false;setTool('solid')};
+$('hidden').onclick=()=>{imagePaintMode=false;setTool('hidden')};
+$('erase').onclick=()=>{imagePaintMode=false;setTool('erase')};
+$('paintImage').onclick=()=>{
+ imagePaintMode=true;
+ ['solid','hidden','erase'].forEach(id=>$(id).classList.remove('active'));
+ $('paintImage').classList.add('active');
+ $('status').textContent='Modo colorear: marca las esquinas de una cara y pulsa Cerrar y rellenar';
+ document.querySelectorAll('.image-paint').forEach(c=>c.style.cursor='crosshair');
+};
+$('undo').onclick=()=>{for(let i=canvases.length-1;i>=0;i--){let a=drawings.get(key(canvases[i]));if(a.length){a.pop();redraw(canvases[i]);break}}};
+document.querySelectorAll('.clear-one').forEach(b=>b.onclick=()=>canvases.filter(c=>c.dataset.n===b.dataset.n).forEach(c=>{drawings.set(key(c),[]);redraw(c)}));
+function showPastedImage(box,file){
+ const reader=new FileReader();reader.onload=()=>{
+   const n=box.id.replace('obj','');
+   box.innerHTML=makeImageStage(reader.result,n);
+   bindImages();$('status').textContent='Imagen colocada en el ejercicio '+n;
+ };reader.readAsDataURL(file);
+}
+function bindImages(){
+ document.querySelectorAll('button[data-paste]').forEach(btn=>btn.onclick=()=>{
+   const box=$('obj'+btn.dataset.paste);box.focus();
+   $('status').textContent='Ejercicio '+btn.dataset.paste+': pega ahora la imagen (Ctrl+V, Cmd+V o mantener pulsado y Pegar)';
+ });
+ document.querySelectorAll('.object').forEach(box=>{
+   box.onpaste=e=>{
+     const items=Array.from((e.clipboardData||window.clipboardData)?.items||[]);
+     const imageItem=items.find(item=>item.type&&item.type.startsWith('image/'));
+     if(imageItem){e.preventDefault();const file=imageItem.getAsFile();if(file)showPastedImage(box,file);return;}
+     const html=e.clipboardData?.getData('text/html');
+     if(html){const doc=new DOMParser().parseFromString(html,'text/html');const img=doc.querySelector('img');if(img&&img.src){e.preventDefault();const image=new Image();image.onload=()=>{const c=document.createElement('canvas');c.width=image.naturalWidth;c.height=image.naturalHeight;c.getContext('2d').drawImage(image,0,0);c.toBlob(blob=>{if(blob)showPastedImage(box,blob)},'image/png')};image.src=img.src;}}
+   };
+ });
+ document.querySelectorAll('.object').forEach(installImagePainter);document.querySelectorAll('input[data-img]').forEach(inp=>inp.onchange=()=>{let f=inp.files&&inp.files[0];if(!f)return;let reader=new FileReader();reader.onload=()=>{let box=$('obj'+inp.dataset.img);box.innerHTML=makeImageStage(reader.result,inp.dataset.img);bindImages()};reader.readAsDataURL(f)})}bindImages();
+$('clear').onclick=()=>{if(confirm('¿Borrar todos los dibujos y las imágenes?')){canvases.forEach(c=>{drawings.set(key(c),[]);redraw(c)});for(let n=1;n<=12;n++)$('obj'+n).innerHTML=`<small>Coloca aquí la imagen de la pieza</small><button type="button" class="paste-image" data-paste="${n}">Pegar imagen</button><label class="filelabel">Elegir imagen <input type="file" accept="image/*" data-img="${n}"></label>`;bindImages()}};
+$('save').onclick=()=>{let d={drawings:{},images:{},imagePaint:{}};canvases.forEach(c=>d.drawings[key(c)]=drawings.get(key(c)));document.querySelectorAll('.object img').forEach(img=>d.images[img.closest('.object').id]=img.src);imageHistories.forEach((v,k)=>d.imagePaint[k]=v);try{localStorage.setItem('ficha-vistas-12x12',JSON.stringify(d));$('status').textContent='Trabajo guardado en este navegador'}catch(e){alert('No se ha podido guardar. Imprime o guarda como PDF para conservar el trabajo.')}};
+try{let d=JSON.parse(localStorage.getItem('ficha-vistas-12x12')||'{}');canvases.forEach(c=>{if(d.drawings&&d.drawings[key(c)]){drawings.set(key(c),d.drawings[key(c)]);redraw(c)}});if(d.images)Object.entries(d.images).forEach(([id,src])=>{let box=$(id);if(box){box.innerHTML=makeImageStage(src,id.replace('obj',''))}});if(d.imagePaint)Object.entries(d.imagePaint).forEach(([k,v])=>imageHistories.set(k,v));bindImages()}catch(e){}
+$('printBtn').addEventListener('click',()=>{
+  // Redraw every canvas immediately before printing so all grid lines and student strokes are present.
+  canvases.forEach(c=>redraw(c));
+  try {
+    if (typeof window.print === 'function') {
+      window.focus();
+      window.print();
+    } else {
+      alert('Este navegador no permite imprimir desde esta vista. Abre el archivo directamente en Safari, Chrome o Edge y vuelve a pulsar Imprimir / Guardar PDF.');
+    }
+  } catch (err) {
+    alert('La impresión está bloqueada en esta vista. Abre la ficha directamente en Safari, Chrome o Edge y utiliza Imprimir / Guardar PDF.');
+  }
+});
+})();
+</script></body></html>
